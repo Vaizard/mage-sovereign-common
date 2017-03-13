@@ -22,7 +22,7 @@ What do you get if you point Sovereign at a server? All kinds of good stuff!
 -   Web hosting (ex: for your blog) via [Apache](https://www.apache.org/).
 -   Firewall management via [Uncomplicated Firewall (ufw)](https://wiki.ubuntu.com/UncomplicatedFirewall).
 -   Intrusion prevention via [fail2ban](http://www.fail2ban.org/) and rootkit detection via [rkhunter](http://rkhunter.sourceforge.net).
--   SSH configuration preventing root login and insecure password authentication
+-   SSH configuration preventing insecure password authentication (unlike upstream we do allow key based root login)
 -   [RFC6238](http://tools.ietf.org/html/rfc6238) two-factor authentication compatible with [Google Authenticator](http://en.wikipedia.org/wiki/Google_Authenticator) and various hardware tokens
 -   SSL cetificates obtained from [Let's Encrypt](https://letsencrypt.org/).
 
@@ -44,8 +44,9 @@ BIG FAT WARNING
 ===============
 
 Either disable two factor authentication or make sure to setup google authenticator correctly IMMEDIATELLY AFTER SETUP. I locked myself twice out of a VM during testing this role.
-See ` /tmp/sovereign-google-auth-files` to get the keys, or suffer in hell.
+This role will create a non-root account for you. See ` /home/<your_user_name>/.google_authenticator` to get the keys, or suffer in hell.
 
+Assuming that you set up the machine via root login and placed a ssh pubkey to /root/.ssh, you might want to copy the key also to the new non-root user.
 
 Usage
 =====
