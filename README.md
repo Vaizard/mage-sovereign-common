@@ -44,6 +44,7 @@ BIG FAT WARNING
 ===============
 
 Either disable two factor authentication or make sure to setup google authenticator correctly IMMEDIATELLY AFTER SETUP. I locked myself twice out of a VM during testing this role.
+See ` /tmp/sovereign-google-auth-files` to get the keys, or suffer in hell.
 
 
 Usage
