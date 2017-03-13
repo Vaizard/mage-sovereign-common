@@ -40,6 +40,11 @@ What the Mage fork doesn't provide but the original SOvereign does:
 -   Read-it-later via [Wallabag](https://www.wallabag.org/)
 -   A bunch of nice-to-have tools like [mosh](http://mosh.mit.edu) and [htop](http://htop.sourceforge.net) that make life with a server a little easier.
 
+BIG FAT WARNING
+===============
+
+Either disable two factor authentication or make sure to setup google authenticator correctly IMMEDIATELLY AFTER SETUP. I locked myself twice out of a VM during testing this role.
+
 
 Usage
 =====
