@@ -154,7 +154,11 @@ mail.other.com 	CNAME 	mail.example.com 	0 	600
 _dmarc.other.com 	TXT 	v=DMARC1; p=none
 ```
 
-The DKIM key can be found in `/etc/opendkim/keys/EXAMPLE.COM/default.txt`
+The DKIM key can be found in 
+
+* `/etc/opendkim/keys/example.com/default.txt`
+* `/etc/opendkim/keys/other.com/default.txt`
+
 To set the spf1 record easily, use http://www.spfwizard.net/ 
 
 ### 4. Set up rDNS
@@ -170,6 +174,7 @@ If you run your mailstack on a VPS, you need to configure rDNS in your VPS setti
 
 or go to http://www.dnsstuff.com/tools#reverseDns|type=ipv4&&value=10.20.30.40 - if all is set correctly, you should see something like:
 
+```
 ; <<>> DiG 9.10.3-P4-Ubuntu <<>> ptr 4.2.237.212.in-addr.arpa.
 ;; global options: +cmd
 ;; Got answer:
@@ -190,7 +195,7 @@ or go to http://www.dnsstuff.com/tools#reverseDns|type=ipv4&&value=10.20.30.40 -
 ;; SERVER: 8.8.8.8#53(8.8.8.8)
 ;; WHEN: Sat Mar 25 08:15:56 CET 2017
 ;; MSG SIZE  rcvd: 126
-
+```
 
 ### 5. Testing the setup
 
