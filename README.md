@@ -26,7 +26,7 @@ What do you get if you point Sovereign at a server? All kinds of good stuff!
 -   [RFC6238](http://tools.ietf.org/html/rfc6238) two-factor authentication compatible with [Google Authenticator](http://en.wikipedia.org/wiki/Google_Authenticator) and various hardware tokens
 -   SSL cetificates obtained from [Let's Encrypt](https://letsencrypt.org/).
 
-What the Mage fork doesn't provide but the original SOvereign does:
+What the Mage fork doesn't (yet) provide but the original SOvereign does:
 
 -   Jabber/[XMPP](http://xmpp.org/) instant messaging via [Prosody](http://prosody.im/).
 -   An RSS Reader via [Selfoss](http://selfoss.aditu.de/).
@@ -129,28 +129,77 @@ Suggested `A` or `CNAME` records from the Sovereign project are:
 * `cloud.example.com` (for ownCloud)
 * `git.example.com` (for cgit)
 
-What we actually use in production is something like:
+What we actually use in production is (assuming the ip address of the server is 10.20.30.40) something like:
 
 ```
-example.com 	TXT 	v=spf1 mx a ptr include:example.net include:example.org 	0 	600
-example.com 	A 	1.2.3.4 	0 	600
+example.com 	TXT 	v=spf1 mx a ip4:10.20.30.40/32 ip4:20.20.30.40/32 ip4:30.20.30.40/32 a:mail.example.com ~all 	0 	600
+example.com 	A 	10.20.30.40 	0 	600
 example.com 	MX 	mail.example.com 	10 	900
-mail.example.com 	A 	1.2.3.4
 *.example.com 	CNAME 	example.com 	100 	600
-default._domainkey.example.com 	TXT 	v=DKIM1; k=rsa; s=email; p=4GNADCBiQKMIGfMA0GCSqGSIb3DQEBAQUAA/areallylongrandomstring/BgQDETFzXLgzfHVOw3YDAQAB 	0 	600
+default._domainkey.example.com 	TXT 	v=DKIM1; k=rsa; s=email; p=dsIGfM4rJ/areallylongrandomstring/sAfQfA3BoSX8YEa0wID 	0 	600
+mail.example.com 	A 	10.20.30.40 	0 	600
 _dmarc.example.com 	TXT 	v=DMARC1; p=none
 ```
 
-The DKIM key can be found in `/etc/opendkim/keys/EXAMPLE.COM/default.txt`
+Assuming mail.example.com relays mail for other.com, then we have other.com set as
 
-### 4. Testing the setup
+```
+other.com 	MX 	mail.example.com 	10 	600
+other.com 	TXT 	v=spf1 mx a include:mail.example.com ~all 	0 	600
+other.com 	A 	20.20.30.40 	0 	900
+*.other.com 	CNAME 	other.com 	0 	900
+autoconfig.other.com 	CNAME 	autoconfig.example.com 	0 	600
+default._domainkey.other.com 	TXT 	v=DKIM1; k=rsa; s=email;  p=1MIGfMA0J/areallylongrandomstring/oSX8YEa0wIDsAfQfA3B 	0 	600
+mail.other.com 	CNAME 	mail.example.com 	0 	600
+_dmarc.other.com 	TXT 	v=DMARC1; p=none
+```
+
+The DKIM key can be found in `/etc/opendkim/keys/EXAMPLE.COM/default.txt`
+To set the spf1 record easily, use http://www.spfwizard.net/ 
+
+### 4. Set up rDNS
+
+Reverse DNS rDNS is a mechanism that allows finding the name (or names, nothing prevents multiple names!) that has been associated with a given IP address. It uses a special type
+of DNS Resource Record called a “Domain Name Pointer”, or “PTR” which is defined in RFC-1035 for this purpose. Email servers that are receiving email from you often use rDNS as a
+spamfilter layer. By determining what domain names you have associated with the IP address they guess how much control you have over your IP address. For example, the rDNS entry 
+for 10.20.30.40 is set as a PTR records for 40.30.20.10.in-addr.arpa.
+
+If you run your mailstack on a VPS, you need to configure rDNS in your VPS settings. To check the current rDNS from shell for 10.20.30.40, do
+
+```dig ptr 40.30.20.10.in-addr.arpa.```
+
+or go to http://www.dnsstuff.com/tools#reverseDns|type=ipv4&&value=10.20.30.40 - if all is set correctly, you should see something like:
+
+; <<>> DiG 9.10.3-P4-Ubuntu <<>> ptr 4.2.237.212.in-addr.arpa.
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 53591
+;; flags: qr rd ra; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 512
+;; QUESTION SECTION:
+;40.30.20.10.in-addr.arpa.	IN	PTR
+
+;; ANSWER SECTION:
+40.30.20.10.in-addr.arpa. 10799	IN	PTR	mail.example.com.
+40.30.20.10.in-addr.arpa. 10799	IN	PTR	example.com.
+40.30.20.10.in-addr.arpa. 10799	IN	PTR	someotherexample.org.
+
+;; Query time: 57 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Sat Mar 25 08:15:56 CET 2017
+;; MSG SIZE  rcvd: 126
+
+
+### 5. Testing the setup
 
 * Send an email to <a href="mailto:check-auth@verifier.port25.com">check-auth@verifier.port25.com</a> and reviewing the report that will be emailed back to you.
 * http://dkimvalidator.com/
 * https://pingability.com/zoneinfo.jsp
 * http://www.dnsstuff.com/tools#dnsReport|type=domain
 
-### 5. Example playbook 
+### 6. Example playbook 
 
 TODO
 
