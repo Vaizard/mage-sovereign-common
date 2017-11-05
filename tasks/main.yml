@@ -15,6 +15,7 @@
     - apache2
     - apt-transport-https
     - apticron
+    - aptitude
     - build-essential
     - debian-goodies
     - git
