@@ -18,9 +18,9 @@
 # NOTE Using Debian's packages kept failing in the weirdest ways, hence a switch to upstream, hence the above tasks.
 
 - name: Install Postgres
-  apt: pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=present
   with_items:
-    - postgresql
+    - "postgresql-9.6"   # 9.6 kept because 10 won't listen on a socket by default
     - python-psycopg2
     - libpq-dev
   tags:
