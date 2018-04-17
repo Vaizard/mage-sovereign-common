@@ -16,7 +16,7 @@ What do you get if you point Sovereign at a server? All kinds of good stuff!
 -   Email client [automatic configuration](https://developer.mozilla.org/en-US/docs/Mozilla/Thunderbird/Autoconfiguration).
 -   Virtual domains for your email, backed by [PostgreSQL](http://www.postgresql.org/).
 -   Spam fighting via [Rspamd](https://www.rspamd.com/) and [Postgrey](http://postgrey.schweikert.ch/).
--   Mail server verification via [OpenDKIM](http://www.opendkim.org/) and [OpenDMARC](http://www.trusteddomain.org/opendmarc/) so the Internet knows your mailserver is legit.
+-   Mail server verification via [OpenDKIM](http://www.opendkim.org/) and  [DMARC](http://www.dmarc.org/) so the Internet knows your mailserver is legit.
 -   [Monit](http://mmonit.com/monit/) to keep everything running smoothly (and alert you when it’s not).
 -   [collectd](http://collectd.org/) to collect system statistics.
 -   Web hosting (ex: for your blog) via [Apache](https://www.apache.org/).
@@ -25,6 +25,7 @@ What do you get if you point Sovereign at a server? All kinds of good stuff!
 -   SSH configuration preventing insecure password authentication (unlike upstream we do allow key based root login)
 -   [RFC6238](http://tools.ietf.org/html/rfc6238) two-factor authentication compatible with [Google Authenticator](http://en.wikipedia.org/wiki/Google_Authenticator) and various hardware tokens
 -   SSL cetificates obtained from [Let's Encrypt](https://letsencrypt.org/).
+-   A bunch of nice-to-have tools like [mosh](http://mosh.mit.edu) and [htop](http://htop.sourceforge.net) that make life with a server a little easier.
 
 What the Mage fork doesn't (yet) provide but the original SOvereign does:
 
@@ -38,7 +39,7 @@ What the Mage fork doesn't (yet) provide but the original SOvereign does:
 -   Nightly backups to [Tarsnap](https://www.tarsnap.com/).
 -   Git hosting via [cgit](http://git.zx2c4.com/cgit/about/) and [gitolite](https://github.com/sitaramc/gitolite).
 -   Read-it-later via [Wallabag](https://www.wallabag.org/)
--   A bunch of nice-to-have tools like [mosh](http://mosh.mit.edu) and [htop](http://htop.sourceforge.net) that make life with a server a little easier.
+
 
 BIG FAT WARNING
 ===============
