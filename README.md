@@ -157,8 +157,8 @@ _dmarc.other.com 	TXT 	v=DMARC1; p=none
 
 The DKIM key can be found in 
 
-* `/etc/opendkim/keys/example.com/default.txt`
-* `/etc/opendkim/keys/other.com/default.txt`
+* `/var/lib/rspamd/dkim/example.com.default.txt`
+* `/var/lib/rspamd/dkim/other.com.default.txt`
 
 To set the spf1 record easily, use http://www.spfwizard.net/ 
 
